@@ -61,6 +61,10 @@ void PinMapping::runmidi(midiEventPacket_t &midiport_out, byte midi_channel)
             // HOW TO USE midiportout?
             
             midiEventPacket_t noteOn = {0x09, 0x90 | midi_channel, key, velocity};
+            
+            //midiport_out = {0x09, 0x90 | midi_channel, key, velocity};
+            // pick up here
+            
             MidiUSB.sendMIDI(noteOn);
 
             state = KeyDown_Start;
