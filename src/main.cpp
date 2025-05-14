@@ -1,30 +1,57 @@
 #include <Arduino.h>
 #include <Keyboard.h>
+#include <MIDIUSB.h>
+
 
 
 #include "PinMapping.h"
+midiEventPacket_t &midiport;
 
+enum USB_Mode
+  {
+    KYBD,
+    MIDI
+  };
 
-PinMapping pintable[] = { {2,54},{3,53},{4,52},{5,51},{6,50},{7,49},
+// MIDI Assignments 
+byte midi_channel = 10; //* MIDI channel to be used
+byte note = 36; //* Lowest note to be used; 36 = C2; 60 = Middle C
+byte cc = 1; //* Lowest MIDI CC to be used
+
+PinMapping keytable[] = { {2,54},{3,53},{4,52},{5,51},{6,50},{7,49},
                           {8,70},{9,69},{10,68},{14,67},{15,66},{16,65}};
-const int pintablesize = sizeof(pintable)/sizeof(pintable[0]);
+const int keytablesize = sizeof(keytable)/sizeof(keytable[0]);
 
+PinMapping miditable[] = { {2,54},{3,53},{4,52},{5,51},{6,50},{7,49},
+                          {8,70},{9,69},{10,68},{14,67},{15,66},{16,65}};
+const int miditablesize = sizeof(miditable)/sizeof(miditable[0]);
 
 void setup() {
 
-for (int i=0; i<pintablesize; i++)
+for (int i=0; i<keytablesize; i++)
   {
-      pintable[i].init();  
+      keytable[i].init();  
+  }; 
+  Keyboard.begin(); 
+
+for (int i=0; i<miditablesize; i++)
+  {
+      miditable[i].init();  
   };
 
-  
-  Keyboard.begin(); 
 }
 
 void loop()
 {
-for (int i=0; i< pintablesize; i++)
+for (int i=0; i< keytablesize; i++)
   {
-    pintable[i].run(Keyboard);
+    keytable[i].runkeyboard(Keyboard);
   };
+
+for (int i=0; i< miditablesize; i++)
+  {
+    miditable[i].runmidi(midiport, midi_channel);
+  };
+
+
 }

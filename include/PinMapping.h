@@ -10,8 +10,8 @@ class PinMapping
 public:
     PinMapping (int pin, int key);
     void init();
-    void run(Keyboard_ &keyboard_out); //feex
-    
+    void runkeyboard(Keyboard_ &keyboard_out);
+    void runmidi(midiEventPacket_t &midiport_out, byte midi_channel);
 private:
     int pin;
     int key;
