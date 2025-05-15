@@ -49,7 +49,7 @@ void PinMapping::runkeyboard(Keyboard_ &keyboard_out)
 
 void PinMapping::runmidi(MIDI_ &midiport_out, uint8_t midi_channel)
 {
-    byte velocity = 127;
+    uint8_t velocity = 127;
     
     //checking the state of the button
     button_state_val = digitalRead(pin);
@@ -65,11 +65,11 @@ void PinMapping::runmidi(MIDI_ &midiport_out, uint8_t midi_channel)
             // Fourth parameter is the velocity (64 = normal, 127 = fastest).
 
             // THEIR SAMPLE CODE HERE!!
-            // midiEventPacket_t noteOn = {0x09, 0x90 | midi_channel, key, velocity};
+            midiEventPacket_t noteOn = {0x09, 0x90 | midi_channel, key, velocity};
             // MidiUSB.sendMIDI(noteOn);
             
             // HOW TO USE midiportout?
-            noteOn = {0x09, 0x90 | midi_channel, key, velocity};
+           // noteOn = {0x09, 0x90 | midi_channel, key, velocity};
             midiport_out.sendMIDI(noteOn);
             // pick up here
 
@@ -90,11 +90,11 @@ void PinMapping::runmidi(MIDI_ &midiport_out, uint8_t midi_channel)
         // and it's currently released:
         
         // THEIR CODE!
-        // midiEventPacket_t noteOff = {0x08, 0x80 | midi_channel, key, velocity};
+        midiEventPacket_t noteOff = {0x08, 0x80 | midi_channel, key, velocity};
         // MidiUSB.sendMIDI(noteOff);
 
         // My Code
-        noteOff = {0x08, 0x80 | midi_channel, key, velocity};
+        // noteOff = {0x08, 0x80 | midi_channel, key, velocity};
         midiport_out.sendMIDI(noteOff);
 
         state = KeyUp_Start;

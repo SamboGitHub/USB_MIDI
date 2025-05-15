@@ -21,8 +21,6 @@ private:
     int button_state_val;
     const long unsigned key_down_debounce = 10;
     const long unsigned key_up_debounce = 10;
-    midiEventPacket_t noteOn;
-    midiEventPacket_t noteOff;
     enum key_state
     {
       Idle,
