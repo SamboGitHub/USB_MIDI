@@ -1,22 +1,24 @@
 #ifndef PIN_MAPPING
 #define PIN_MAPPING = 1
+#include "MIDIUSB_Defs.h"
 
 
-class Keyboard_; //feex point to real
+class Keyboard_;
+class MIDI_;
+
 
 
 class PinMapping
 {
 public:
-    PinMapping (int pin, int key);
+    PinMapping (int pin, uint8_t key);
     void init();
     void runkeyboard(Keyboard_ &keyboard_out);
-    void runmidi(midiEventPacket_t &midiport_out, byte midi_channel);
+    void runmidi(midiEventPacket_t &midiport_out, uint8_t midi_channel);
 private:
     int pin;
-    int key;
+    uint8_t key;
     int button_state_val;
-    int prev_button_state_val;
     const long unsigned key_down_debounce = 10;
     const long unsigned key_up_debounce = 10;
     enum key_state

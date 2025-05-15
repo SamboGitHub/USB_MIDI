@@ -1,11 +1,12 @@
 #include <Arduino.h>
 #include <Keyboard.h>
 #include <MIDIUSB.h>
-
+#include <MIDIUSB_Defs.h>
 
 
 #include "PinMapping.h"
-midiEventPacket_t &midiport;
+
+midiEventPacket_t midiport;
 
 enum USB_Mode
   {
@@ -14,7 +15,7 @@ enum USB_Mode
   };
 
 // MIDI Assignments 
-byte midi_channel = 10; //* MIDI channel to be used
+uint8_t midi_channel = 0x09; //* MIDI channel to be used - channel 9
 byte note = 36; //* Lowest note to be used; 36 = C2; 60 = Middle C
 byte cc = 1; //* Lowest MIDI CC to be used
 

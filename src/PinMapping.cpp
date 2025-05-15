@@ -2,7 +2,9 @@
 
 #include <Keyboard.h>
 #include "PinMapping.h"
-#include "MIDIUSB.h"
+#include <MIDIUSB.h>
+#include <MIDIUSB_Defs.h>
+
 
 
 void PinMapping::init()
@@ -45,7 +47,7 @@ void PinMapping::runkeyboard(Keyboard_ &keyboard_out)
     }
 }
 
-void PinMapping::runmidi(midiEventPacket_t &midiport_out, byte midi_channel)
+void PinMapping::runmidi(midiEventPacket_t &midiport_out, uint8_t midi_channel)
 {
     byte velocity = 127;
     
@@ -55,17 +57,23 @@ void PinMapping::runmidi(midiEventPacket_t &midiport_out, byte midi_channel)
     //replaces button press with UP arrow
     if (button_state_val == LOW && state ==  Idle)
         {
-            // and it's currently pressed:
-            
+                          
+            // First parameter is the event type (0x09 = note on, 0x08 = note off).
+            // Second parameter is note-on/note-off, combined with the channel.
+            // Channel can be anything between 0-15. Typically reported to the user as 1-16.
+            // Third parameter is the note number (48 = middle C).
+            // Fourth parameter is the velocity (64 = normal, 127 = fastest).
+
             // THEIR SAMPLE CODE HERE!!
-            // HOW TO USE midiportout?
-            
             midiEventPacket_t noteOn = {0x09, 0x90 | midi_channel, key, velocity};
-            
-            //midiport_out = {0x09, 0x90 | midi_channel, key, velocity};
-            // pick up here
-            
             MidiUSB.sendMIDI(noteOn);
+            
+            // HOW TO USE midiportout?
+            midiport_out = {0x09, 0x90 | midi_channel, key, velocity};
+            MidiUSB.sendMIDI(midiport_out);
+            // pick up here
+
+
 
             state = KeyDown_Start;
             start_time = millis();
@@ -85,6 +93,10 @@ void PinMapping::runmidi(midiEventPacket_t &midiport_out, byte midi_channel)
         midiEventPacket_t noteOff = {0x08, 0x80 | midi_channel, key, velocity};
         MidiUSB.sendMIDI(noteOff);
 
+        // My Code
+        midiport_out = {0x08, 0x80 | midi_channel, key, velocity};
+        MidiUSB.sendMIDI(midiport_out);
+
         state = KeyUp_Start;
         start_time = millis();
 
@@ -101,7 +113,7 @@ void PinMapping::runmidi(midiEventPacket_t &midiport_out, byte midi_channel)
 }
 
 
-PinMapping::PinMapping(int InitPin, int InitKey)
+PinMapping::PinMapping(int InitPin, uint8_t InitKey)
 {
     pin = InitPin;
     key = InitKey;
