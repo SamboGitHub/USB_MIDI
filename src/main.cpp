@@ -6,8 +6,6 @@
 
 #include "PinMapping.h"
 
-midiEventPacket_t midiport;
-
 enum USB_Mode
   {
     KYBD,
@@ -51,7 +49,7 @@ for (int i=0; i< keytablesize; i++)
 
 for (int i=0; i< miditablesize; i++)
   {
-    miditable[i].runmidi(midiport, midi_channel);
+    miditable[i].runmidi(MidiUSB, midi_channel);
   };
 
 

@@ -14,13 +14,15 @@ public:
     PinMapping (int pin, uint8_t key);
     void init();
     void runkeyboard(Keyboard_ &keyboard_out);
-    void runmidi(midiEventPacket_t &midiport_out, uint8_t midi_channel);
+    void runmidi(MIDI_ &midiport_out, uint8_t midi_channel);
 private:
     int pin;
     uint8_t key;
     int button_state_val;
     const long unsigned key_down_debounce = 10;
     const long unsigned key_up_debounce = 10;
+    midiEventPacket_t noteOn;
+    midiEventPacket_t noteOff;
     enum key_state
     {
       Idle,
@@ -37,10 +39,5 @@ private:
 
 
 };
-
-
-
-
-
 
 #endif
