@@ -71,7 +71,7 @@ void PinMapping::runmidi(MIDI_ &midiport_out, uint8_t midi_channel)
             // HOW TO USE midiportout?
            // noteOn = {0x09, 0x90 | midi_channel, key, velocity};
             midiport_out.sendMIDI(noteOn);
-            // pick up here
+            midiport_out.flush();            // pick up here
 
 
 
@@ -96,6 +96,7 @@ void PinMapping::runmidi(MIDI_ &midiport_out, uint8_t midi_channel)
         // My Code
         // noteOff = {0x08, 0x80 | midi_channel, key, velocity};
         midiport_out.sendMIDI(noteOff);
+        midiport_out.flush();
 
         state = KeyUp_Start;
         start_time = millis();
