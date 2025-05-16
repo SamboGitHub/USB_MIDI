@@ -13,7 +13,7 @@ enum USB_Mode
   };
 
 // MIDI Assignments 
-uint8_t midi_channel = 0x09; //* MIDI channel to be used - channel 9
+uint8_t midi_channel = 0x05; //* MIDI channel to be used - channel 5
 byte note = 36; //* Lowest note to be used; 36 = C2; 60 = Middle C
 byte cc = 1; //* Lowest MIDI CC to be used
 
