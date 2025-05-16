@@ -11,6 +11,7 @@ enum USB_Mode
     KYBD,
     MIDI
   };
+  USB_Mode DeviceType = MIDI;
 
 // MIDI Assignments 
 uint8_t midi_channel = 0x05; //* MIDI channel to be used - channel 5
@@ -27,30 +28,39 @@ const int miditablesize = sizeof(miditable)/sizeof(miditable[0]);
 
 void setup() {
 
-for (int i=0; i<keytablesize; i++)
+if(DeviceType == KYBD)
+{for (int i=0; i<keytablesize; i++)
   {
       keytable[i].init();  
   }; 
   Keyboard.begin(); 
+}
 
+if(DeviceType == MIDI)
+{
 for (int i=0; i<miditablesize; i++)
   {
       miditable[i].init();  
   };
-
+}
 }
 
 void loop()
 {
-for (int i=0; i< keytablesize; i++)
+if(DeviceType == KYBD)
+{
+  for (int i=0; i< keytablesize; i++)
   {
     keytable[i].runkeyboard(Keyboard);
   };
+}
 
+if(DeviceType == MIDI)
+{
 for (int i=0; i< miditablesize; i++)
   {
     miditable[i].runmidi(MidiUSB, midi_channel);
   };
-
+}
 
 }
